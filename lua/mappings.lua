@@ -29,12 +29,16 @@ map("n", "ff", vim.lsp.buf.format, { desc = "Format file" })
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to Defenition" })
 map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implemented interfaces" })
 map("n","gr", vim.lsp.buf.references, {desc = "Go to references"})
+
 -- split
 map("n", "<leader>s", ":vsplit<Enter>", { desc = "Vertical split" })
 map("n", "<leader>e", ":NvimTreeToggle<Enter>", { desc = "Open/Close Explorer" })
+
 -- diagnostics
 map("n", "<leader>fd", ":Telescope diagnostics <CR>", { desc = "Telescope Diagnostic File" })
+
 -- code running
 map("n", "<leader>gr", ":!go run %<Enter>", {desc = "Run Golang File"})
+
 --git
 map("n","<leader>lg", ":LazyGit<Enter>", {desc = "Run LazyGit"})
