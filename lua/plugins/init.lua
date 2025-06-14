@@ -32,11 +32,6 @@ return {
 		end,
 	},
 	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000
-	},
-	{
 		"rachartier/tiny-code-action.nvim",
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
@@ -89,66 +84,103 @@ return {
 		},
 	},
 	{
-		"rcarriga/nvim-dap-ui",
-		config = true,
-		keys = {
-			{
-				"<leader>du",
-				function()
-					require("dapui").toggle({})
-				end,
-				desc = "Dap UI"
-			},
-		},
+		"mfussenegger/nvim-dap",
 		dependencies = {
-			-- keep-sorted start block=yes
-			{
-				"jay-babu/mason-nvim-dap.nvim",
-				---@type MasonNvimDapSettings
-				opts = {
-					-- This line is essential to making automatic installation work
-					-- :exploding-brain
-					handlers = {},
-					automatic_installation = {
-						-- These will be configured by separate plugins.
-						exclude = {
-							"delve",
-							"gdb",
-						},
-					},
-
-				},
-				dependencies = {
-					"mfussenegger/nvim-dap",
-					"williamboman/mason.nvim",
-				},
-			},
-			{
-				"leoluz/nvim-dap-go",
-				config = true,
-				dependencies = {
-					"mfussenegger/nvim-dap",
-				},
-				keys = {
-					{
-						"<leader>dt",
-						function() require('dap-go').debug_test() end,
-						desc = "Debug test"
-					},
-				},
-			},
-			{
-				"nvim-neotest/nvim-nio",
-			},
-			{
-				"theHamsta/nvim-dap-virtual-text",
-				config = true,
-				dependencies = {
-					"mfussenegger/nvim-dap",
-				},
-			},
-			-- keep-sorted end
+			"rcarriga/nvim-dap-ui",
+			"leoluz/nvim-dap-go",
+			"nvim-neotest/nvim-nio",
 		},
+
+		config = function()
+			local dap, dapui = require("dap"), require("dapui")
+
+			require("dapui").setup()
+			require("dap-go").setup()
+
+			dap.listeners.before.attach.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				dapui.close()
+			end
+
+			vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, {desc = "Toggle Breakpoint"})
+			vim.keymap.set("n", "<Leader>dc", dap.continue, {desc = "Continue"})
+			vim.keymap.set("n", "<Leader>dr", ":lua require('dapui').open({reset = true})<CR>", {desc = "Show DapUI"})
+
+			vim.fn.sign_define(
+				"DapBreakpoint",
+				{ text = "", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+			)
+		end,
+	},
+--	{
+--		"rcarriga/nvim-dap-ui",
+--		config = true,
+--		keys = {
+--			{
+--				"<leader>du",
+--				function()
+--					require("dapui").toggle({})
+--				end,
+--				desc = "Dap UI"
+--			},
+--		},
+--		dependencies = {
+--			-- keep-sorted start block=yes
+--			{
+--				"jay-babu/mason-nvim-dap.nvim",
+--				---@type MasonNvimDapSettings
+--				opts = {
+--					-- This line is essential to making automatic installation work
+--					-- :exploding-brain
+--					handlers = {},
+--					automatic_installation = {
+--						-- These will be configured by separate plugins.
+--						exclude = {
+--							"delve",
+--							"gdb",
+--						},
+--					},
+--
+--				},
+--				dependencies = {
+--					"mfussenegger/nvim-dap",
+--					"williamboman/mason.nvim",
+--				},
+--			},
+--			{
+--				"leoluz/nvim-dap-go",
+--				config = true,
+--				dependencies = {
+--					"mfussenegger/nvim-dap",
+--				},
+--				keys = {
+--					{
+--						"<leader>dt",
+--						function() require('dap-go').debug_test() end,
+--						desc = "Debug test"
+--					},
+--				},
+--			},
+--			{
+--				"nvim-neotest/nvim-nio",
+--			},
+--			{
+--				"theHamsta/nvim-dap-virtual-text",
+--				config = true,
+--				dependencies = {
+--					"mfussenegger/nvim-dap",
+--				},
+--			},
+--			-- keep-sorted end
+--		},
 		{
 			"kdheepak/lazygit.nvim",
 			lazy = true,
@@ -169,5 +201,4 @@ return {
 				{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
 			}
 		},
-	},
-}
+	}
