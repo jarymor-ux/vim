@@ -32,6 +32,7 @@ map("n","gr", vim.lsp.buf.references, {desc = "Go to references"})
 
 -- split
 map("n", "<leader>s", ":vsplit<Enter>", { desc = "Vertical split" })
+--explorer
 map("n", "<leader>e", ":NvimTreeToggle<Enter>", { desc = "Open/Close Explorer" })
 
 -- diagnostics
