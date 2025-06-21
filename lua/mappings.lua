@@ -38,7 +38,9 @@ map("n", "<leader>e", ":NvimTreeToggle<Enter>", { desc = "Open/Close Explorer" }
 map("n", "<leader>fd", ":Telescope diagnostics <CR>", { desc = "Telescope Diagnostic File" })
 
 -- code running
-map("n", "<leader>gr", ":!go run %<Enter>", {desc = "Run Golang File"})
+map("n", "<leader>gor", ":!go run %<Enter>", {desc = "Run Golang File"})
 
 --git
 map("n","<leader>lg", ":LazyGit<Enter>", {desc = "Run LazyGit"})
+--OpenGl(Cmake)
+map("n","<leader>gcr", ":!make && ./gl_test<Enter>", {desc = "Run OpenGL Cmake Task"})

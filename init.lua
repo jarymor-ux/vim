@@ -30,7 +30,6 @@ require("lazy").setup({
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
-
 require "options"
 require "autocmds"
 require 'nvim-treesitter.configs'.setup {
